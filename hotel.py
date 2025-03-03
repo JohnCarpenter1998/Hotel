@@ -7,3 +7,11 @@ class Hotel:
             self.rooms.append([])
             for room in range(floorRatio):
                 self.rooms[floor].append("")
+
+    def BookReservation(self, name,roomNumber):
+        roomstr = str(roomNumber)
+        floor = int(roomstr[0])
+        roomIndex = int(roomstr[1:3])
+        self.rooms[floor][roomIndex] = name
+
+
