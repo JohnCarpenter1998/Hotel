@@ -3,6 +3,7 @@ class Hotel:
         self.name = name
         self.address = address
         self.rooms = []
+        self.guests = {}
         for floor in range(floorCount):
             self.rooms.append([])
             for room in range(floorRatio):
@@ -14,25 +15,25 @@ class Hotel:
             print("Invalid room number")
             return
         self.rooms[floor][roomIndex] = name
+        self.guests[name] = roomNumber
 
-    def CancelReservation(self,roomNumber):
-        floor, roomIndex = self.convertNumberToRoom(roomNumber)
-        if not self.validateRoomNumber(floor,roomIndex):
-            print("Invalid room number")
+    def CancelReservation(self,name):
+        roomNumber = self.guests[name]
+        if roomNumber == False:
+            print("Guest " + name + " Has no Reservation")
             return
-        name = self.rooms[floor][roomIndex]
+        floor, roomIndex = self.convertNumberToRoom(roomNumber)
         self.rooms[floor][roomIndex] = ""
+        self.guests[name] = False
         print("Reservation for " + name + " under room " + str(roomNumber) + " has been canceled")
 
-    def SeeReservation(self, roomNumber):
-        floor, roomIndex = self.convertNumberToRoom(roomNumber)
-        if not self.validateRoomNumber(floor,roomIndex):
-            print("Invalid room number")
+    def SeeReservation(self, name):
+        roomNumber = self.guests[name]
+        if roomNumber == False:
+            print("Guest " + name + " Has no Reservation")
             return
-        if self.rooms[floor][roomIndex] != "":
-            print(self.rooms[floor][roomIndex] + " Is staying in room " + str(roomNumber) + "." )
-        else:
-            print("Room " + str(roomNumber) + " is vacant.")
+        floor, roomIndex = self.convertNumberToRoom(roomNumber)
+        print(name + " Is staying in room " + str(roomNumber) + "." )
 
     def convertNumberToRoom(self, roomNumber):
         roomstr = str(roomNumber)
